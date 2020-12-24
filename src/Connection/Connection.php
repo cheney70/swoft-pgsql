@@ -220,6 +220,58 @@ abstract class Connection extends AbstractConnection implements ConnectionInterf
         return ($result === false) ? [] : $result;
     }
 
+
+    /**
+     * @param $query
+     * @return array
+     * @throws ContainerException
+     * @throws DbException
+     * @throws ReflectionException
+     */
+    public function insert(string $table_name,array $data): array
+    {
+        try{
+            $this->createClient(true);
+            $result = pg_insert($this->pgresource, $table_name, $data);
+            $this->pgClose();
+            return $result;
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    /**
+     * @param $table
+     * @param $updateData
+     * @param $where
+     */
+    public function update(string $table_name,array $updateData, array $where)
+    {
+        try{
+            $this->createClient(true);
+            $result = pg_update($this->pgresource, $table_name, $updateData, $where);
+            $this->pgClose();
+            return ($result === false) ? [] : $result;
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    /**
+     * @param array $where
+     * @throws PgsqlException
+     */
+    public function delete(string $table_name,array $where)
+    {
+        try{
+            $this->createClient(true);
+            $result = pg_delete($this->pgresource, $table_name, $where);
+            return $result;
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
     /**
      * Import array value into a table and return bool
      *
