@@ -3,6 +3,8 @@
 
 namespace Swoft\Pgsql\Connection;
 
+use function pg_fetch_assoc;
+use function pg_query;
 use ReflectionException;
 use Swoft;
 use Swoft\Bean\BeanFactory;
@@ -271,6 +273,45 @@ abstract class Connection extends AbstractConnection implements ConnectionInterf
             throw $e;
         }
     }
+
+    /**
+     * 执行SQL查询 update insert delete
+     * @param String $sql
+     * @return Int 返回结果集条数
+     * @throws \Exception\
+     */
+    public function executeQuery(String $sql)
+    {
+        try{
+            $this->createClient(true);
+            $result = pg_query($this->pgresource, $sql);
+            return pg_num_rows($result);
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
+    /**
+     * 原生sql查询 适用于复杂查询语句
+     * @param String $sql
+     * @return array|bool
+     * @throws \Exception
+     */
+    public function selectQuery(String $sql)
+    {
+        try{
+            $this->createClient(true);
+            $result = pg_query($this->pgresource, $sql);
+            if($result){
+                return pg_fetch_assoc($result);
+            }else{
+                return false;
+            }
+        }catch (\Exception $e){
+            throw $e;
+        }
+    }
+
 
     /**
      * Import array value into a table and return bool
