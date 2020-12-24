@@ -14,7 +14,7 @@ Swoft PostgreSQL Component
 - composer command
 
 ```bash
-composer require curtis18/swoft-pgsql
+composer require cheney70/swoft-pgsql
 ```
 
 ## Resources
