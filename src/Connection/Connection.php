@@ -285,7 +285,7 @@ abstract class Connection extends AbstractConnection implements ConnectionInterf
         try{
             $this->createClient(true);
             $result = pg_query($this->pgresource, $sql);
-            return pg_num_rows($result);
+            return pg_affected_rows($result);
         }catch (\Exception $e){
             throw $e;
         }
