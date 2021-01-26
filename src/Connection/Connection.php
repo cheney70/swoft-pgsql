@@ -312,6 +312,32 @@ abstract class Connection extends AbstractConnection implements ConnectionInterf
         }
     }
 
+    /**
+     * 开启事务
+     */
+    public function beginTransaction()
+    {
+        $this->createClient(true);
+        pg_query("BEGIN") or die("Could not start transaction\n");
+    }
+
+    /**
+     * 提交事务
+     */
+    public function commit()
+    {
+        $this->createClient(true);
+        pg_query("COMMIT") or die("Transaction commit failed\n");
+    }
+
+    /**
+     * 事务回滚
+     */
+    public function rollback()
+    {
+        $this->createClient(true);
+        pg_query("ROLLBACK") or die("Transaction rollback failed\n");
+    }
 
     /**
      * Import array value into a table and return bool

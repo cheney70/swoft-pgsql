@@ -257,28 +257,4 @@ class PgsqlDb
     {
         return (int)$this->readTimeout;
     }
-
-    /**
-     * 开启事务
-     */
-    public static function beginTransaction()
-    {
-        pg_query("BEGIN") or die("Could not start transaction\n");
-    }
-
-    /**
-     * 提交事务
-     */
-    public static function commit()
-    {
-        pg_query("COMMIT") or die("Transaction commit failed\n");
-    }
-
-    /**
-     * 事务回滚
-     */
-    public static function rollback()
-    {
-        pg_query("ROLLBACK") or die("Transaction rollback failed\n");
-    }
 }
